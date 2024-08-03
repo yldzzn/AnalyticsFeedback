@@ -2,13 +2,13 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
 import openai
-
+import os
 st.title("🎈 Analytics Feedback Chatbot")
 st.write(
     "Welcome [X]"
 )
 # Set your OpenAI API key
-openai.api_key = "sk-4z9quzg6kGqOQvm-IqwvrToWTiziKBIm7avoxRbWOaT3BlbkFJwtBoclOz80jivHePp1vAnaXkRbR86w5go7a-pOBbYA"
+openai.api_key = os.getenv('OPENAI_API_KEY')
 st.write("Ask your questions about your analytics feedback visuals. Refer to graphs by their IDs.")
 
 # Example DataFrames for different graphs
