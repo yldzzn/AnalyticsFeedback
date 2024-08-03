@@ -2,11 +2,11 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
 import openai
+
 st.title("🎈 Analytics Feedback")
 st.write(
     "Welcome [X]"
 )
-
 
 # Set your OpenAI API key
 openai.api_key = 'your_openai_api_key_here'
