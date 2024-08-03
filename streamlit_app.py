@@ -49,15 +49,32 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-if prompt := st.chat_input():
+if user_input:
     if not openai_api_key:
         st.info("Please add your OpenAI API key to continue.")
         st.stop()
 
-    client = OpenAI(api_key=openai_api_key)
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user").write(prompt)
-    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-    msg = response.choices[0].message.content
+    # Extract graph information
+    graph_info = {
+        "Graph 1": f"Graph 1 shows student scores: {df1.to_dict()}",
+        "Graph 2": f"Graph 2 shows weekly attendance: {df2.to_dict()}"
+    }
+    referred_graph = graph_info[graph_selection]
+
+    # Combine user input with graph information
+    full_input = f"{user_input}\n\n{referred_graph}"
+
+    # Add user message to the session state
+    st.session_state.messages.append({"role": "user", "content": full_input})
+    st.chat_message("user").write(full_input)
+
+    # Call the OpenAI API
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=st.session_state.messages
+    )
+
+    # Extract and display the response message
+    msg = response['choices'][0]['message']['content']
     st.session_state.messages.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
