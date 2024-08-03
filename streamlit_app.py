@@ -54,10 +54,12 @@ if user_input:
     full_input = f"{user_input}\n\n{referred_graph}"
 
     # Call the OpenAI API
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=full_input,
-        max_tokens=150
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": full_input}
+        ]
     )
 
-    st.write(f"Chatbot: {response.choices[0].text.strip()}")
+    st.write(f"Chatbot: {response.choices[0].message['content']}")
