@@ -8,7 +8,10 @@ st.write(
     "Welcome [X]"
 )
 # Set your OpenAI API key
-openai.api_key = 
+
+with st.sidebar:
+    openai.api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
+
 st.write("Ask your questions about your analytics feedback visuals. Refer to graphs by their IDs.")
 
 # Example DataFrames for different graphs
