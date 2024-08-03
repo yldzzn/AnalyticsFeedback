@@ -1,4 +1,4 @@
 streamlit
-update openai
+openai
 matplotlib
 pandas
