@@ -43,26 +43,21 @@ graph_selection = st.selectbox("Select a graph to ask about:", ["Graph 1", "Grap
 
 # User input
 user_input = st.text_input("You: ", "Type your question here...")
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
-if user_input:
-    # Extract graph information
-    graph_info = {
-        "Graph 1": f"Graph 1 shows student scores: {df1.to_dict()}",
-        "Graph 2": f"Graph 2 shows weekly attendance: {df2.to_dict()}"
-    }
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"]).write(msg["content"])
 
-    referred_graph = graph_info[graph_selection]
-    
-    # Full input for the API
-    full_input = f"{user_input}\n\n{referred_graph}"
+if prompt := st.chat_input():
+    if not openai_api_key:
+        st.info("Please add your OpenAI API key to continue.")
+        st.stop()
 
-    # Call the OpenAI API
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": full_input}
-        ]
-    )
-
-    st.write(f"Chatbot: {response.choices[0].message['content']}")
+    client = OpenAI(api_key=openai_api_key)
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.chat_message("user").write(prompt)
+    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+    msg = response.choices[0].message.content
+    st.session_state.messages.append({"role": "assistant", "content": msg})
+    st.chat_message("assistant").write(msg)
