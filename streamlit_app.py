@@ -8,7 +8,7 @@ st.write(
     "Welcome [X]"
 )
 # Set your OpenAI API key
-openai.api_key = OpenAIkey
+openai.api_key = "sk-4z9quzg6kGqOQvm-IqwvrToWTiziKBIm7avoxRbWOaT3BlbkFJwtBoclOz80jivHePp1vAnaXkRbR86w5go7a-pOBbYA"
 st.write("Ask your questions about your analytics feedback visuals. Refer to graphs by their IDs.")
 
 # Example DataFrames for different graphs
