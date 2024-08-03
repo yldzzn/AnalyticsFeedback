@@ -2,7 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
 import openai
-import os
+
 st.title("🎈 Analytics Feedback Chatbot")
 st.write(
     "Welcome [X]"
