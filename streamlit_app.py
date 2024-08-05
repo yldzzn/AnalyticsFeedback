@@ -11,7 +11,7 @@ st.write(
 
 with st.sidebar:
     openai.api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
-
+openai.api_key=chatbot_api_key
 st.write("Ask your questions about your analytics feedback visuals. Refer to graphs by their IDs.")
 # Example DataFrames for different graphs
 data1 = {
